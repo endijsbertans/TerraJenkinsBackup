@@ -1,0 +1,182 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "ec2:*",
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "elasticloadbalancing:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "cloudwatch:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "autoscaling:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "iam:AWSServiceName": [
+                        "autoscaling.amazonaws.com",
+                        "ec2scheduled.amazonaws.com",
+                        "elasticloadbalancing.amazonaws.com",
+                        "spot.amazonaws.com",
+                        "spotfleet.amazonaws.com",
+                        "transitgateway.amazonaws.com"
+                    ]
+                }
+            }
+        },
+
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+                "ecr:DescribeImages",
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability"
+            ],
+            "Resource": "*"
+        },
+
+        {
+            "Effect": "Allow",
+            "Action": [
+                "imagebuilder:GetComponent",
+                "imagebuilder:GetContainerRecipe",
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchGetImage",
+                "ecr:InitiateLayerUpload",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:PutImage"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kms:Decrypt"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ForAnyValue:StringEquals": {
+                    "kms:EncryptionContextKeys": "aws:imagebuilder:arn",
+                    "aws:CalledVia": [
+                        "imagebuilder.amazonaws.com"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": "arn:aws:s3:::ec2imagebuilder*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:CreateLogGroup",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:*:*:log-group:/aws/imagebuilder/*"
+        },
+        {
+        "Action": [
+            "secretsmanager:*",
+            "cloudformation:CreateChangeSet",
+            "cloudformation:DescribeChangeSet",
+            "cloudformation:DescribeStackResource",
+            "cloudformation:DescribeStacks",
+            "cloudformation:ExecuteChangeSet",
+            "ec2:DescribeSecurityGroups",
+            "ec2:DescribeSubnets",
+            "ec2:DescribeVpcs",
+            "kms:DescribeKey",
+            "kms:ListAliases",
+            "kms:ListKeys",
+            "lambda:ListFunctions",
+            "rds:DescribeDBClusters",
+            "rds:DescribeDBInstances",
+            "redshift:DescribeClusters",
+            "tag:GetResources"
+        ],
+        "Effect": "Allow",
+        "Resource": "*"
+    },
+    {
+        "Action": [
+            "lambda:AddPermission",
+            "lambda:CreateFunction",
+            "lambda:GetFunction",
+            "lambda:InvokeFunction",
+            "lambda:UpdateFunctionConfiguration"
+        ],
+        "Effect": "Allow",
+        "Resource": "arn:aws:lambda:*:*:function:SecretsManager*"
+    },
+    {
+        "Action": [
+            "serverlessrepo:CreateCloudFormationChangeSet",
+            "serverlessrepo:GetApplication"
+        ],
+        "Effect": "Allow",
+        "Resource": "arn:aws:serverlessrepo:*:*:applications/SecretsManager*"
+    },
+    {
+        "Action": [
+            "s3:GetObject"
+        ],
+        "Effect": "Allow",
+        "Resource": [
+            "arn:aws:s3:::awsserverlessrepo-changesets*",
+            "arn:aws:s3:::secrets-manager-rotation-apps-*/*"
+        ]
+    },
+
+
+    
+        
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "s3:*",
+                    "s3-object-lambda:*"
+                ],
+                "Resource": "*"
+            }
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    ]
+}
+
+
